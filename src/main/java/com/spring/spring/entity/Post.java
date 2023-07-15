@@ -23,8 +23,8 @@ public class Post {
     @Column(name = "contents", nullable = false)
     private String contents;
 
-//    @Column(name = "image", nullable = false)
-//    private String image;
+    @Column(name = "image", nullable = false)
+    private String image;
 
     @Column(name = "username", nullable = false)
     private String username;
@@ -36,10 +36,10 @@ public class Post {
     private List<PostLike> postLikeList = new ArrayList<>();
 
     // 게시글 작성
-    public Post(PostRequestDto postRequestDto) {
+    public Post(PostRequestDto postRequestDto, String image) {
         this.title = postRequestDto.getTitle();
         this.contents = postRequestDto.getContents();
-//        this.image = postRequestDto.getImage();
+        this.image = image;
         this.username = postRequestDto.getUsername();
         this.password = postRequestDto.getPassword();
     }
