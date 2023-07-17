@@ -43,24 +43,17 @@ public class PostService {
     private final AmazonS3 amazonS3;
 
     // 게시글 작성
-    public PostResponseDto createPost(MultipartFile multipartFile, String requestDto) {
+    public PostResponseDto createPost(MultipartFile multipartFile, PostRequestDto requestDto) {
         // 이미지 s3 업로드 후에 image url 반환
-        String image = uploadImage(multipartFile);
-
-        // json을 java object 변환
-        ObjectMapper objectMapper = new ObjectMapper();
-        try {
-            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-            PostRequestDto readRequestDto = objectMapper.readValue(requestDto, PostRequestDto.class);
-            Post post = new Post(readRequestDto, image);
-            postRepository.save(post);
-
-            return new PostResponseDto(post);
-        }catch (JsonProcessingException e) {
-            e.printStackTrace();
+        String image = null;
+        if (multipartFile != null) {
+            image = uploadImage(multipartFile);
         }
 
-        return null;
+        Post post = new Post(requestDto, image);
+        postRepository.save(post);
+        return new PostResponseDto(post);
+
     }
 
     // 게시글 전체 조회

@@ -23,7 +23,7 @@ public class Post {
     @Column(name = "contents", nullable = false)
     private String contents;
 
-    @Column(name = "image", nullable = false)
+    @Column(name = "image")
     private String image;
 
     @Column(name = "username", nullable = false)
