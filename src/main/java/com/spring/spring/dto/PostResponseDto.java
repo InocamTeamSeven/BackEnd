@@ -10,7 +10,7 @@ public class PostResponseDto {
     private Long id;
     private String title;
     private String contents;
-    //    private String image;
+    private String image;
     private int postLikeCnt;
     private String username;
 
@@ -19,7 +19,7 @@ public class PostResponseDto {
         this.id = post.getId();
         this.title = post.getTitle();
         this.contents = post.getContents();
-//        this.image = post.getImage();
+        this.image = post.getImage();
         this.username = post.getUsername();
         this.postLikeCnt = post.getPostLikeList().size();
     }

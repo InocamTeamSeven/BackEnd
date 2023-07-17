@@ -7,19 +7,21 @@ import com.spring.spring.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/post")
+@CrossOrigin
 public class PostController {
     private final PostService postService;
 
     // 게시글 작성
     @PostMapping
-    public ResponseEntity<PostResponseDto> createPost(@RequestBody PostRequestDto postRequestDto) {
-        return ResponseEntity.ok(postService.createPost(postRequestDto));
+    public ResponseEntity<PostResponseDto> createPost(@RequestPart(value = "image", required = false) MultipartFile multipartFile, PostRequestDto requestDto) {
+        return ResponseEntity.ok(postService.createPost(multipartFile, requestDto));
     }
 
     // 게시글 전체 조회
