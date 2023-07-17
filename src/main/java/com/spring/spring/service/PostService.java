@@ -115,6 +115,11 @@ public class PostService {
             throw new CustomException(NOT_MATCH_PASSWORD);
         }
 
+        // 이미지 s3 삭제
+        if (post.getImage() != null) {
+            amazonS3.deleteObject(bucket, post.getImage().substring(58));
+        }
+
         postRepository.delete(post);
 
         return new MsgResponseDto("게시글을 삭제했습니다.", HttpStatus.OK.value());

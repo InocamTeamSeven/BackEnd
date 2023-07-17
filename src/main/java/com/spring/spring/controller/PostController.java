@@ -20,7 +20,7 @@ public class PostController {
 
     // 게시글 작성
     @PostMapping
-    public ResponseEntity<PostResponseDto> createPost(@RequestPart(value = "image", required = false) MultipartFile multipartFile, PostRequestDto requestDto) {
+    public ResponseEntity<PostResponseDto> createPost(@RequestPart(value = "image", required = false) MultipartFile multipartFile,@ModelAttribute PostRequestDto requestDto) {
         return ResponseEntity.ok(postService.createPost(multipartFile, requestDto));
     }
 
