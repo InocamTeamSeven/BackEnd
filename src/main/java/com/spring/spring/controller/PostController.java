@@ -3,9 +3,11 @@ package com.spring.spring.controller;
 import com.spring.spring.dto.MsgResponseDto;
 import com.spring.spring.dto.PostRequestDto;
 import com.spring.spring.dto.PostResponseDto;
+import com.spring.spring.security.UserDetailsImpl;
 import com.spring.spring.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,8 +22,8 @@ public class PostController {
 
     // 게시글 작성
     @PostMapping
-    public ResponseEntity<PostResponseDto> createPost(@RequestPart(value = "image", required = false) MultipartFile multipartFile,@ModelAttribute PostRequestDto requestDto) {
-        return ResponseEntity.ok(postService.createPost(multipartFile, requestDto));
+    public ResponseEntity<PostResponseDto> createPost(@RequestPart(value = "image", required = false) MultipartFile multipartFile,@ModelAttribute PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return ResponseEntity.ok(postService.createPost(multipartFile, requestDto, userDetails));
     }
 
     // 게시글 전체 조회

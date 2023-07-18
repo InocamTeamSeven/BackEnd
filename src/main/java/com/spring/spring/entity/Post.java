@@ -4,12 +4,14 @@ import com.spring.spring.dto.PostRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @Table(name = "post")
 @NoArgsConstructor
 public class Post {
@@ -29,8 +31,6 @@ public class Post {
     @Column(name = "username", nullable = false)
     private String username;
 
-    @Column(name = "password", nullable = false)
-    private String password;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<PostLike> postLikeList = new ArrayList<>();
@@ -41,7 +41,6 @@ public class Post {
         this.contents = postRequestDto.getContents();
         this.image = image;
         this.username = postRequestDto.getUsername();
-        this.password = postRequestDto.getPassword();
     }
 
     // 게시글 수정
@@ -50,6 +49,5 @@ public class Post {
         this.contents = postRequestDto.getContents();
 //        this.image = postRequestDto.getImage();
         this.username = postRequestDto.getUsername();
-        this.password = postRequestDto.getPassword();
     }
 }

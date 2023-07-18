@@ -13,9 +13,11 @@ import com.spring.spring.dto.PostRequestDto;
 import com.spring.spring.dto.PostResponseDto;
 import com.spring.spring.entity.Post;
 import com.spring.spring.entity.PostLike;
+import com.spring.spring.entity.User;
 import com.spring.spring.exception.CustomException;
 import com.spring.spring.repository.PostLikeRepository;
 import com.spring.spring.repository.PostRepository;
+import com.spring.spring.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -43,7 +45,9 @@ public class PostService {
     private final AmazonS3 amazonS3;
 
     // 게시글 작성
-    public PostResponseDto createPost(MultipartFile multipartFile, PostRequestDto requestDto) {
+    public PostResponseDto createPost(MultipartFile multipartFile, PostRequestDto requestDto, UserDetailsImpl userDetails) {
+        User user = userDetails.getUser();
+
         // 이미지 s3 업로드 후에 image url 반환
         String image = null;
         if (multipartFile != null) {
@@ -51,7 +55,9 @@ public class PostService {
         }
 
         Post post = new Post(requestDto, image);
+        post.setUsername(user.getUsername());
         postRepository.save(post);
+
         return new PostResponseDto(post);
 
     }
@@ -93,10 +99,7 @@ public class PostService {
             throw new CustomException(NOT_MATCH_USERNAME);
         }
 
-        // 비밀번호 일치 확인
-        if (!postRequestDto.getPassword().equals(post.getPassword())) {
-            throw new CustomException(NOT_MATCH_PASSWORD);
-        }
+
 
         post.update(postRequestDto);
 
@@ -110,10 +113,7 @@ public class PostService {
                 () -> new CustomException(NOT_FOUND_BOARD)
         );
 
-        // 비밀번호 일치 확인
-        if (!postRequestDto.getPassword().equals(post.getPassword())) {
-            throw new CustomException(NOT_MATCH_PASSWORD);
-        }
+
 
         // 이미지 s3 삭제
         if (post.getImage() != null) {
