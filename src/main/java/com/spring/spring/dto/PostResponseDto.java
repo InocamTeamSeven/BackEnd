@@ -12,7 +12,8 @@ public class PostResponseDto {
     private String contents;
     private String image;
     private int postLikeCnt;
-    private String username;
+    private boolean postLikeCheck;
+//    private String username;
 
     // 게시글 작성
     public PostResponseDto(Post post) {
@@ -20,7 +21,20 @@ public class PostResponseDto {
         this.title = post.getTitle();
         this.contents = post.getContents();
         this.image = post.getImage();
-        this.username = post.getUsername();
+//        this.username = post.getUsername();
+    }
+
+    // 게시글 전체/선택 조회, 수정
+    public PostResponseDto(Post post, boolean postLikeCheck) {
+        this.id = post.getId();
+        this.title = post.getTitle();
+        this.contents = post.getContents();
+        this.image = post.getImage();
+//        this.username = post.getUsername();
         this.postLikeCnt = post.getPostLikeList().size();
+        this.postLikeCheck = postLikeCheck;
+    }
+
+    public PostResponseDto() {
     }
 }
