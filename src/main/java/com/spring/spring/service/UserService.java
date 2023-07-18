@@ -54,24 +54,6 @@ public class UserService {
         userRepository.save(user);
     }
 
-    // 로그인
-    public void login(LoginRequestDto loginRequestDto, HttpServletResponse response) {
-        String username = loginRequestDto.getUsername();
-        String password = loginRequestDto.getPassword();
-
-        User user = userRepository.findByUsername(username).orElseThrow(
-                () -> new CustomException(NOT_MATCH_INFORMATION)
-        );
-
-        // 비밀번호 일치 여부 확인
-        if (!passwordEncoder.matches(password, user.getPassword())) {
-            throw new CustomException(NOT_MATCH_INFORMATION);
-        }
-
-        // Header 에 key 값과 Token 담기
-        response.addHeader(JwtUtil.AUTHORIZATION_HEADER, JwtUtil.createToken(user.getUsername(), user.getRole()));
-    }
-
     // 사용자의 권한 확인 - 게시글
     Post findByPostIdAndUser(Long post_id, User user) {
         Post post;

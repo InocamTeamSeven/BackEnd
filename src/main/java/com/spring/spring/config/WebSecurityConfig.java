@@ -1,6 +1,5 @@
 package com.spring.spring.config;
 
-import com.amazonaws.HttpMethod;
 import com.spring.spring.jwt.JwtAuthenticationFilter;
 import com.spring.spring.jwt.JwtAuthorizationFilter;
 import com.spring.spring.jwt.JwtUtil;
@@ -18,7 +17,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.bind.annotation.GetMapping;
 
 import static org.springframework.http.HttpMethod.GET;
 

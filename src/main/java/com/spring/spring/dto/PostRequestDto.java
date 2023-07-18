@@ -12,6 +12,5 @@ import lombok.Setter;
 public class PostRequestDto {
     private String title;
     private String contents;
-    //    private String image;
-//    private String username;
+    private String username;
 }

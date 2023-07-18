@@ -26,6 +26,9 @@ public class Post {
     @Column(name = "image")
     private String image;
 
+    @Column(name = "username", nullable = false)
+    private String username;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -37,6 +40,7 @@ public class Post {
     public Post(PostRequestDto postRequestDto, String image, User user) {
         this.title = postRequestDto.getTitle();
         this.contents = postRequestDto.getContents();
+        this.username = user.getUsername();
         this.image = image;
         this.user = user;
     }

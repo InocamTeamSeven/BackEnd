@@ -7,6 +7,7 @@ import com.spring.spring.dto.PostResponseDto;
 import com.spring.spring.security.UserDetailsImpl;
 import com.spring.spring.service.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +37,11 @@ public class PostController {
     // 게시글 선택 조회
     @GetMapping("/{post_id}")
     public ResponseEntity<PostResponseDto> getPost(@PathVariable Long post_id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return ResponseEntity.ok(postService.getPost(post_id, userDetails.getUser()));
+        if (userDetails != null) {
+            return ResponseEntity.ok(postService.getPost(post_id, userDetails.getUser()));      // 회원
+        } else {
+            return ResponseEntity.ok(postService.getPost(post_id));         // 비회원
+        }
     }
 
     // 게시글 수정

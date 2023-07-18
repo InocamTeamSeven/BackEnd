@@ -70,7 +70,7 @@ public class PostService {
         return postResponseDtoList;
     }
 
-    // 게시글 선택 조회
+    // 게시글 선택 조회 - 회원
     public PostResponseDto getPost(Long post_id, User user) {
         // 게시글이 있는지
         Post post = postRepository.findById(post_id).orElseThrow (
@@ -78,6 +78,16 @@ public class PostService {
         );
 
         return new PostResponseDto(post, checkPostLike(post.getId(), user));
+    }
+
+    // 게시글 선택 조회 - 비회원
+    public PostResponseDto getPost(Long post_id) {
+        // 게시글이 있는지
+        Post post = postRepository.findById(post_id).orElseThrow (
+                () -> new CustomException(NOT_FOUND_BOARD)
+        );
+
+        return new PostResponseDto(post);
     }
 
     // 게시글 수정
@@ -158,4 +168,6 @@ public class PostService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 형식의 파일(" + fileName + ") 입니다.");
         }
     }
+
+
 }

@@ -1,10 +1,8 @@
 package com.spring.spring.controller;
 
-import com.spring.spring.dto.LoginRequestDto;
 import com.spring.spring.dto.MsgResponseDto;
 import com.spring.spring.dto.SignupRequestDto;
 import com.spring.spring.service.UserService;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,12 +23,5 @@ public class UserController {
     public ResponseEntity<MsgResponseDto> signup(@RequestBody @Valid SignupRequestDto signupRequestDto) {
         userService.signup(signupRequestDto);
         return ResponseEntity.ok(new MsgResponseDto("회원가입 완료", HttpStatus.OK.value()));
-    }
-
-    // 로그인
-    @PostMapping("/login")
-    public ResponseEntity<MsgResponseDto> login(@RequestBody LoginRequestDto loginRequestDto, HttpServletResponse response) {
-        userService.login(loginRequestDto, response);
-        return ResponseEntity.ok(new MsgResponseDto("로그인 완료", HttpStatus.OK.value()));
     }
 }
