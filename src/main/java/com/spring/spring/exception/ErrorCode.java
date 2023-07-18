@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 @Getter
 @RequiredArgsConstructor
 public enum ErrorCode {
+    // 회원가입시 동일한 이름이 존재하는 경우
+    DUPLICATE_USERNAME(HttpStatus.BAD_REQUEST, "동일한 이름이 존재합니다."),
 
     // 작성자명이 일치하지 않을 경우
     NOT_MATCH_USERNAME(HttpStatus.BAD_REQUEST, "작성자가 아닙니다."),
