@@ -40,14 +40,14 @@ public class PostController {
 
     // 게시글 수정
     @PutMapping("/{post_id}")
-    public ResponseEntity<PostResponseDto> updatePost(@PathVariable Long post_id, @RequestBody PostRequestDto postRequestDto) {
-        return ResponseEntity.ok(postService.updatePost(post_id, postRequestDto));
+    public ResponseEntity<PostResponseDto> updatePost(@PathVariable Long post_id, @RequestBody PostRequestDto postRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return ResponseEntity.ok(postService.updatePost(post_id, postRequestDto, userDetails));
     }
 
     // 게시글 삭제
     @DeleteMapping("/{post_id}")
-    public ResponseEntity<MsgResponseDto> deletePost(@PathVariable Long post_id, @RequestBody PostRequestDto postRequestDto) {
-        return ResponseEntity.ok(postService.deletePost(post_id, postRequestDto));
+    public ResponseEntity<MsgResponseDto> deletePost(@PathVariable Long post_id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return ResponseEntity.ok(postService.deletePost(post_id, userDetails));
     }
 
     // 게시글 좋아요

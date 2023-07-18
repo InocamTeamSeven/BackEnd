@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
 
     // 작성자명이 일치하지 않을 경우
-    NOT_MATCH_USERNAME(HttpStatus.BAD_REQUEST, "작성자를 찾을 수 없습니다."),
+    NOT_MATCH_USERNAME(HttpStatus.BAD_REQUEST, "작성자가 아닙니다."),
 
     // 비밀번호가 일치하지 않을 경우
     NOT_MATCH_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),

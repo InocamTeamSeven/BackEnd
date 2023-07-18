@@ -88,18 +88,15 @@ public class PostService {
 
     // 게시글 수정
     @Transactional
-    public PostResponseDto updatePost(Long post_id, PostRequestDto postRequestDto) {
+    public PostResponseDto updatePost(Long post_id, PostRequestDto postRequestDto, UserDetailsImpl userDetails) {
         // 게시글이 있는지
         Post post = postRepository.findById(post_id).orElseThrow (
                 () -> new CustomException(NOT_FOUND_BOARD)
         );
 
         // 작성자명 일치 확인
-        if (!postRequestDto.getUsername().equals(post.getUsername())) {
-            throw new CustomException(NOT_MATCH_USERNAME);
-        }
-
-
+        User user = userDetails.getUser();
+        checkUser(user.getUsername(), post.getUsername());
 
         post.update(postRequestDto);
 
@@ -107,13 +104,15 @@ public class PostService {
     }
 
     // 게시글 삭제
-    public MsgResponseDto deletePost(Long post_id, PostRequestDto postRequestDto) {
+    public MsgResponseDto deletePost(Long post_id, UserDetailsImpl userDetails) {
         // 게시글이 있는지
         Post post = postRepository.findById(post_id).orElseThrow (
                 () -> new CustomException(NOT_FOUND_BOARD)
         );
 
-
+        // 작성자명 일치 확인
+        User user = userDetails.getUser();
+        checkUser(user.getUsername(), post.getUsername());
 
         // 이미지 s3 삭제
         if (post.getImage() != null) {
@@ -136,6 +135,12 @@ public class PostService {
         PostLike postLike = new PostLike(post);
         postLikeRepository.save(postLike);
         return new MsgResponseDto("게시글 좋아요", HttpStatus.OK.value());
+    }
+
+    private void checkUser(String postUsername, String loginUsername) {
+       if (!postUsername.equals(loginUsername)) {
+           throw new CustomException(NOT_MATCH_USERNAME);
+       }
     }
 
     public String uploadImage(MultipartFile multipartFile) {

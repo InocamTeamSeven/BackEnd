@@ -40,7 +40,6 @@ public class Post {
         this.title = postRequestDto.getTitle();
         this.contents = postRequestDto.getContents();
         this.image = image;
-        this.username = postRequestDto.getUsername();
     }
 
     // 게시글 수정
@@ -48,6 +47,5 @@ public class Post {
         this.title = postRequestDto.getTitle();
         this.contents = postRequestDto.getContents();
 //        this.image = postRequestDto.getImage();
-        this.username = postRequestDto.getUsername();
     }
 }
