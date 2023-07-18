@@ -22,6 +22,12 @@ repositories {
 }
 
 dependencies {
+    // Security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    // Validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
     // aws
     implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.3.1'
 
