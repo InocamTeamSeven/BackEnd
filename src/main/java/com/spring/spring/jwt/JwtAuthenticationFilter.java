@@ -1,7 +1,9 @@
 package com.spring.spring.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.spring.spring.dto.LoginRequestDto;
+import com.spring.spring.dto.MsgResponseDto;
 import com.spring.spring.entity.UserRoleEnum;
 import com.spring.spring.security.UserDetailsImpl;
 import jakarta.servlet.FilterChain;
@@ -9,12 +11,14 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @Slf4j(topic = "로그인 및 JWT 생성")
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -52,11 +56,29 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         String token = jwtUtil.createToken(username, role);
         jwtUtil.addJwtToCookie(token, response);
+
+        MsgResponseDto responseDto = new MsgResponseDto("로그인 성공", HttpStatus.OK.value());
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = objectMapper.writeValueAsString(responseDto);
+
+        response.setContentType("application/json;charset=utf-8");
+        response.getWriter().print(json);
+
+//        response.setCharacterEncoding("UTF-8");
+//        PrintWriter writer = response.getWriter();
+//        writer.print(json);
     }
 
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
         log.info("로그인 실패");
         response.setStatus(401);
+
+        MsgResponseDto responseDto = new MsgResponseDto("로그인 실패", HttpStatus.BAD_REQUEST.value());
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = objectMapper.writeValueAsString(responseDto);
+
+        response.setContentType("application/json;charset=utf-8");
+        response.getWriter().print(json);
     }
 }
