@@ -18,6 +18,7 @@ public class PostResponseDto {
     private int postLikeCnt;
     private boolean postLikeCheck;
     private LocalDate date;
+    private List<CommentResponseDto> commentList;
 
     // 게시글 작성
     public PostResponseDto(Post post) {
@@ -28,6 +29,7 @@ public class PostResponseDto {
         this.username = post.getUsername();
         this.postLikeCnt = post.getPostLikeList().size();
         this.date = post.getDate();
+        this.commentList = post.getCommentList().stream().map(CommentResponseDto::new).toList();
     }
 
     // 게시글 전체/선택 조회, 수정
@@ -39,5 +41,6 @@ public class PostResponseDto {
         this.username = post.getUsername();
         this.postLikeCnt = post.getPostLikeList().size();
         this.postLikeCheck = postLikeCheck;
+        this.commentList = post.getCommentList().stream().map(CommentResponseDto::new).toList();
     }
 }
