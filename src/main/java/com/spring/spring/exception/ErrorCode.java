@@ -8,8 +8,11 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum ErrorCode {
 
+    INVALID_FORMAT(HttpStatus.BAD_REQUEST, "올바르지 않은 유형"),
+
     // 토큰이 있으며 유효한 토큰이나, 해당 사용자의 게시글이 아닌 경우 (즉, 권한이 없는 경우)
     NOT_FOUND_BOARD_OR_AUTHORIZATION(HttpStatus.BAD_REQUEST, "게시글을 찾을 수 없거나 작성자만 삭제/수정할 수 있습니다."),
+
 
     /* 회원가입 */
     // DB 에 이미 존재하는 username 으로 회원가입 요청한 경우
@@ -17,6 +20,7 @@ public enum ErrorCode {
 
     // admin 계정으로 회원가입 시, ADMIN_TOKEN 과 일치하지 않을 경우
     NOT_MATCH_ADMIN_TOKEN(HttpStatus.BAD_REQUEST, "관리자 암호가 일치하지 않습니다."),
+
 
     /* 로그인 */
     // username 과 password 중 일치하지 않는 정보가 있을 경우
@@ -32,8 +36,6 @@ public enum ErrorCode {
     // DB 에 해당 댓글이 존재하지 않는 경우
     NOT_FOUND_COMMENT(HttpStatus.BAD_REQUEST, "댓글을 찾을 수 없습니다.");
 
-
-    
     private final HttpStatus httpStatus;
     private final String message;
 }
