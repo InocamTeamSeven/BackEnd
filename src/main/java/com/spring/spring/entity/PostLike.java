@@ -17,7 +17,12 @@ public class PostLike {
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
 
-    public PostLike(Post post) {
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    public PostLike(Post post, User user) {
         this.post = post;
+        this.user = user;
     }
 }

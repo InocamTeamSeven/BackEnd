@@ -29,27 +29,25 @@ public class Post extends Timestamped{
     @Column(name = "username", nullable = false)
     private String username;
 
-    @Column(name = "password", nullable = false)
-    private String password;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
     private List<PostLike> postLikeList = new ArrayList<>();
 
     // 게시글 작성
-    public Post(PostRequestDto postRequestDto, String image) {
+    public Post(PostRequestDto postRequestDto, String image, User user) {
         this.title = postRequestDto.getTitle();
         this.contents = postRequestDto.getContents();
+        this.username = user.getUsername();
         this.image = image;
-        this.username = postRequestDto.getUsername();
-        this.password = postRequestDto.getPassword();
+        this.user = user;
     }
 
     // 게시글 수정
     public void update(PostRequestDto postRequestDto) {
         this.title = postRequestDto.getTitle();
         this.contents = postRequestDto.getContents();
-//        this.image = postRequestDto.getImage();
-        this.username = postRequestDto.getUsername();
-        this.password = postRequestDto.getPassword();
     }
 }
