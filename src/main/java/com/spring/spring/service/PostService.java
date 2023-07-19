@@ -34,7 +34,6 @@ import static com.spring.spring.exception.ErrorCode.*;
 @Service
 @RequiredArgsConstructor
 public class PostService {
-    private final UserRepository userRepository;
     private final UserService userService;
     private final PostRepository postRepository;
     private final PostLikeRepository postLikeRepository;
