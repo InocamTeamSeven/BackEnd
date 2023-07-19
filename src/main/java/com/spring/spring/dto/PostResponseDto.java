@@ -17,7 +17,6 @@ public class PostResponseDto {
     private String image;
     private int postLikeCnt;
     private boolean postLikeCheck;
-    private String username;
     private LocalDate date;
 
     // 게시글 작성
