@@ -1,16 +1,13 @@
 package com.spring.spring.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
-//@Setter
+@Setter
 //@NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class PostRequestDto {
     private String title;
     private String contents;
-    private String username;
 }

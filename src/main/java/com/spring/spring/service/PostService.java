@@ -48,6 +48,7 @@ public class PostService {
         if (multipartFile != null) {
             image = uploadImage(multipartFile);
         }
+        System.out.println(requestDto.toString());
 
         Post post = new Post(requestDto, image, user);
         postRepository.save(post);

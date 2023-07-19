@@ -29,6 +29,8 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
         String tokenValue = jwtUtil.getJwtFromHeader(req);
 
+        log.info("token value = " + tokenValue);
+
         if (StringUtils.hasText(tokenValue)) {
             if (!jwtUtil.validateToken(tokenValue)) {
                 log.error("Token Error");

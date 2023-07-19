@@ -5,11 +5,14 @@ import com.spring.spring.jwt.JwtAuthorizationFilter;
 import com.spring.spring.jwt.JwtUtil;
 import com.spring.spring.security.UserDetailsServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -22,11 +25,24 @@ import static org.springframework.http.HttpMethod.GET;
 
 @Configuration
 @EnableWebSecurity
-@RequiredArgsConstructor
+@EnableGlobalMethodSecurity(securedEnabled = true)
 public class WebSecurityConfig {
+
     private final JwtUtil jwtUtil;
+    private final CorsConfig corsConfig;
     private final UserDetailsServiceImpl userDetailsService;
     private final AuthenticationConfiguration authenticationConfiguration;
+
+    @Autowired
+    public WebSecurityConfig(JwtUtil jwtUtil, CorsConfig corsConfig,
+                             UserDetailsServiceImpl userDetailsService,
+                             AuthenticationConfiguration authenticationConfiguration) {
+        this.jwtUtil = jwtUtil;
+        this.corsConfig = corsConfig;
+        this.userDetailsService = userDetailsService;
+        this.authenticationConfiguration = authenticationConfiguration;
+    }
+
 
     // 비밀번호 암호화
     @Bean
@@ -69,13 +85,16 @@ public class WebSecurityConfig {
                 authorizeHttpRequests
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers(GET,"/api/post", "/api/post/{post_id}").permitAll()
+                        .requestMatchers(GET,"/api/post", "/api/post/**").permitAll()
                         .anyRequest().authenticated()
         );
 
+        http.formLogin(Customizer.withDefaults());
+
         // 필터 관리
-        http.addFilterBefore(jwtAuthorizationFilter(), JwtAuthenticationFilter.class);
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthorizationFilter(), JwtAuthenticationFilter.class);
+        http.addFilterBefore(corsConfig.corsFilter(), JwtAuthorizationFilter.class);
 
         return http.build();
     }

@@ -24,7 +24,7 @@ public class PostController {
 
     // 게시글 작성
     @PostMapping
-    public ResponseEntity<PostResponseDto> createPost(@RequestPart(value = "image", required = false) MultipartFile multipartFile, @ModelAttribute PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseEntity<PostResponseDto> createPost(@RequestPart(value = "image", required = false) MultipartFile multipartFile, @RequestPart PostRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return ResponseEntity.ok(postService.createPost(multipartFile, requestDto, userDetails.getUser()));
     }
 
