@@ -24,7 +24,15 @@ public enum ErrorCode {
 
 
     // DB 에 해당 게시글이 존재하지 않는 경우
-    NOT_FOUND_BOARD(HttpStatus.BAD_REQUEST, "게시글을 찾을 수 없습니다.");
+    NOT_FOUND_BOARD(HttpStatus.BAD_REQUEST, "게시글을 찾을 수 없습니다."),
+
+    // 토큰이 있으며 유효한 토큰이나, 해당 사용자의 댓글이 아닌 경우 (즉, 권한이 없는 경우)
+    NOT_FOUND_COMMENT_OR_AUTHORIZATION(HttpStatus.BAD_REQUEST, "댓글을 찾을 수 없거나 작성자만 삭제/수정할 수 있습니다."),
+
+    // DB 에 해당 댓글이 존재하지 않는 경우
+    NOT_FOUND_COMMENT(HttpStatus.BAD_REQUEST, "댓글을 찾을 수 없습니다.");
+
+
     
     private final HttpStatus httpStatus;
     private final String message;
