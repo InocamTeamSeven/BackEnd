@@ -1,5 +1,7 @@
 package com.spring.spring.jwt;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.spring.spring.dto.MsgResponseDto;
 import com.spring.spring.security.UserDetailsServiceImpl;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;
@@ -8,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
@@ -33,6 +36,11 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
         if (StringUtils.hasText(tokenValue)) {
             if (!jwtUtil.validateToken(tokenValue)) {
+                MsgResponseDto msgResponse = new MsgResponseDto("토큰 에러", HttpStatus.BAD_REQUEST.value());
+                res.setContentType("application/json");
+                res.setCharacterEncoding("UTF-8");
+                res.getWriter().write(new ObjectMapper().writeValueAsString(msgResponse));
+
                 log.error("Token Error");
                 return;
             }
