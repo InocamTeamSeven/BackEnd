@@ -8,16 +8,33 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public enum ErrorCode {
 
-    // 작성자명이 일치하지 않을 경우
-    NOT_MATCH_USERNAME(HttpStatus.BAD_REQUEST, "작성자를 찾을 수 없습니다."),
+    INVALID_FORMAT(HttpStatus.BAD_REQUEST, "올바르지 않은 유형"),
 
-    // 비밀번호가 일치하지 않을 경우
-    NOT_MATCH_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
+    // 토큰이 있으며 유효한 토큰이나, 해당 사용자의 게시글이 아닌 경우 (즉, 권한이 없는 경우)
+    NOT_FOUND_BOARD_OR_AUTHORIZATION(HttpStatus.BAD_REQUEST, "게시글을 찾을 수 없거나 작성자만 삭제/수정할 수 있습니다."),
 
-    // DB 에 해당 게시글/댓글/대댓글이 존재하지 않는 경우
+
+    /* 회원가입 */
+    // DB 에 이미 존재하는 username 으로 회원가입 요청한 경우
+    DUPLICATED_USERNAME(HttpStatus.BAD_REQUEST, "중복된 username 입니다"),
+
+    // admin 계정으로 회원가입 시, ADMIN_TOKEN 과 일치하지 않을 경우
+    NOT_MATCH_ADMIN_TOKEN(HttpStatus.BAD_REQUEST, "관리자 암호가 일치하지 않습니다."),
+
+
+    /* 로그인 */
+    // username 과 password 중 일치하지 않는 정보가 있을 경우
+    NOT_MATCH_INFORMATION(HttpStatus.BAD_REQUEST, "회원을 찾을 수 없습니다."),
+
+
+    // DB 에 해당 게시글이 존재하지 않는 경우
     NOT_FOUND_BOARD(HttpStatus.BAD_REQUEST, "게시글을 찾을 수 없습니다."),
-    NOT_FOUND_COMMENT(HttpStatus.BAD_REQUEST, "댓글을 찾을 수 없습니다."),
-    NOT_FOUND_REPLY(HttpStatus.BAD_REQUEST, "대댓글을 찾을 수 없습니다.");
+
+    // 토큰이 있으며 유효한 토큰이나, 해당 사용자의 댓글이 아닌 경우 (즉, 권한이 없는 경우)
+    NOT_FOUND_COMMENT_OR_AUTHORIZATION(HttpStatus.BAD_REQUEST, "댓글을 찾을 수 없거나 작성자만 삭제/수정할 수 있습니다."),
+
+    // DB 에 해당 댓글이 존재하지 않는 경우
+    NOT_FOUND_COMMENT(HttpStatus.BAD_REQUEST, "댓글을 찾을 수 없습니다.");
 
     private final HttpStatus httpStatus;
     private final String message;
